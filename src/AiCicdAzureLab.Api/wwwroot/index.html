@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI CI/CD Azure Lab</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">GitHub Actions × Azure</p>
+      <h1>AI CI/CD Azure Lab</h1>
+      <p>以 HTML、JavaScript 與 C# API 示範從 Pull Request 到雲端部署的流程。</p>
+    </section>
+
+    <section class="card">
+      <h2>呼叫 C# API</h2>
+      <form id="greeting-form">
+        <label for="name">你的名字</label>
+        <div class="form-row">
+          <input id="name" name="name" maxlength="50" placeholder="例如：小明" value="課程學員">
+          <button type="submit">送出</button>
+        </div>
+      </form>
+      <output id="result" class="result" aria-live="polite">尚未呼叫 API</output>
+    </section>
+
+    <section class="card status-card">
+      <div>
+        <h2>服務狀態</h2>
+        <p id="health-status">檢查中⋯</p>
+      </div>
+      <span id="status-badge" class="badge">CHECKING</span>
+    </section>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>
