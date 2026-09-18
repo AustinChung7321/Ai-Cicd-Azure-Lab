@@ -50,3 +50,16 @@ Windows PowerShell：
 - http://localhost:5000/api/greeting?name=小明
 
 實際連接埠可能依 .NET 開發環境設定而不同。
+
+## 使用 Docker 執行
+
+使用前請先安裝並啟動 Docker Desktop，確認 Docker Engine（daemon）正在執行。
+
+    docker build -t ai-cicd-azure-lab .
+    docker run --rm -p 8080:8080 ai-cicd-azure-lab
+
+開啟 http://localhost:8080/。
+
+若 Docker 顯示 Windows NuGet fallback package folder 或 ResolvePackageAssets 錯誤，請確認使用目前的 .dockerignore，並重新建置：
+
+    docker build --no-cache -t ai-cicd-azure-lab .

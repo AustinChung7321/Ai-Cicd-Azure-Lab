@@ -1,0 +1,9 @@
+.git
+.github
+tests
+.env
+**/bin/
+**/obj/
+**/.vs/
+**/*.user
+**/*.suo
