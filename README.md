@@ -1,13 +1,29 @@
 # AI CI/CD Azure Lab
 
+這是一個可直接推送到 GitHub 的課程示範 Repository，用來示範如何以 GitHub Actions 串接 Azure，完成從程式碼提交、測試、AI 輔助檢查到雲端部署的流程。
+
 本版本使用 .NET 8 ASP.NET Core Minimal API 作為後端，使用 HTML、CSS 與原生 JavaScript 作為前端。前後端由同一個 ASP.NET Core 服務提供，因此學員只需要啟動一個服務即可完成示範。
 
 ## 課程目標
 
 - 使用 C# 建立簡單的 REST API
 - 使用 HTML、CSS 與 JavaScript 呼叫 API
+- 使用 GitHub Repository、Branch 與 Pull Request
+- 使用 GitHub Actions 執行 .NET 測試與 Docker build
+- 理解 Azure Container Registry 與 Azure Container Apps 的部署位置
+- 認識 Azure OpenAI 在程式碼審查與錯誤診斷中的角色
+- 使用 OIDC 讓 GitHub Actions 安全登入 Azure，避免散布長期 API Key
 
-## 應用程式內容
+## 系統架構
+
+GitHub Push / Pull Request
+→ GitHub Actions
+→ dotnet restore、dotnet test、Docker build
+→ Azure Container Registry
+→ Azure Container Apps
+→ Application Insights / Log Analytics
+
+應用程式本身包含：
 
 - GET /health：健康檢查
 - GET /api/greeting?name=小明：C# API
@@ -15,20 +31,30 @@
 
 ## 專案結構
 
-    src/AiCicdAzureLab.Api/
-    ├─ Services/GreetingService.cs
-    ├─ Program.cs
-    ├─ AiCicdAzureLab.Api.csproj
-    └─ wwwroot/
-       ├─ index.html
-       ├─ app.js
-       └─ styles.css
-
-    tests/AiCicdAzureLab.Api.Tests/
-    ├─ AiCicdAzureLab.Api.Tests.csproj
-    └─ GreetingServiceTests.cs
-
-    NuGet.Config
+    ai-cicd-azure-lab/
+    ├─ .github/
+    │  ├─ workflows/
+    │  │  └─ ci.yml
+    │  └─ workflow-templates/
+    │     └─ azure-deploy.yml
+    ├─ src/
+    │  └─ AiCicdAzureLab.Api/
+    │     ├─ Services/GreetingService.cs
+    │     ├─ Program.cs
+    │     ├─ AiCicdAzureLab.Api.csproj
+    │     └─ wwwroot/
+    │        ├─ index.html
+    │        ├─ app.js
+    │        └─ styles.css
+    ├─ tests/
+    │  └─ AiCicdAzureLab.Api.Tests/
+    ├─ docs/
+    ├─ .dockerignore
+    ├─ .env.example
+    ├─ .gitignore
+    ├─ AGENTS.md
+    ├─ Dockerfile
+    └─ README.md
 
 ## 本機執行
 
@@ -72,3 +98,24 @@ Windows PowerShell：
 2. 還原相依套件
 3. 執行 xUnit 測試
 4. 建立 Docker Image
+
+Azure 部署流程先放在 .github/workflow-templates/azure-deploy.yml，完成 Azure 資源與 OIDC 設定後，再依 docs/azure-setup.md 啟用。這樣尚未設定 Azure 時，CI 仍然可以正常執行。
+
+## 推送到 GitHub
+
+在 GitHub 建立空白 Repository 後，於本資料夾執行：
+
+    git add .
+    git commit -m "改用 C# API 與 HTML JavaScript 前端"
+    git remote add origin https://github.com/<帳號>/<Repository>.git
+    git push -u origin main
+
+請將帳號與 Repository 替換成實際值；不要把密碼、Token 或 Azure API Key 寫入指令、README 或版本庫。
+
+## 安全原則
+
+- 不提交 .env、API Key、密碼、Token 或私人憑證。
+- 優先使用 GitHub Actions OIDC 與 Microsoft Entra ID 登入 Azure。
+- Azure 權限限制在課程專用 Resource Group，不授予 Subscription Owner。
+- AI 審查結果先作為建議，不讓 AI 自動合併或直接覆寫正式程式碼。
+- 課程結束後停用或刪除課程用的 Azure 資源，避免持續產生成本。
