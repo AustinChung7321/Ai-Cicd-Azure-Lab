@@ -63,3 +63,12 @@ Windows PowerShell：
 若 Docker 顯示 Windows NuGet fallback package folder 或 ResolvePackageAssets 錯誤，請確認使用目前的 .dockerignore，並重新建置：
 
     docker build --no-cache -t ai-cicd-azure-lab .
+
+## GitHub Actions
+
+.github/workflows/ci.yml 會在 push 與 pull_request 時自動執行：
+
+1. 設定 .NET 8
+2. 還原相依套件
+3. 執行 xUnit 測試
+4. 建立 Docker Image
