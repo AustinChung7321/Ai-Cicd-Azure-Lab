@@ -119,3 +119,6 @@ Azure 部署流程先放在 .github/workflow-templates/azure-deploy.yml，完成
 - Azure 權限限制在課程專用 Resource Group，不授予 Subscription Owner。
 - AI 審查結果先作為建議，不讓 AI 自動合併或直接覆寫正式程式碼。
 - 課程結束後停用或刪除課程用的 Azure 資源，避免持續產生成本。
+
+## CI/CD 自動化測試紀錄
+- 觸發首次 GitHub Actions 建置
